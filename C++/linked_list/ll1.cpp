@@ -27,8 +27,11 @@ class linkedlist{
                 tail = temp;
             }
             else{
-                tail->next = temp;
-                tail = temp;
+                node *iter=head;
+                while(iter->next!=NULL){
+                    iter = iter->next;
+                }
+                iter->next = temp;
             }
         }
 
@@ -72,6 +75,59 @@ class linkedlist{
             }
             return ll_len;
         }
+
+        void insert_node(int pos, int value){
+            if(this->head == NULL){
+                this->push_node(value);
+            }
+            else{
+                if(pos==0){
+                    node *temp = new node;
+                    temp->data = value;
+                    temp->next = this->head;
+                    this->head = temp;
+                }
+                else if(pos > this->get_length() - 1){
+                    this->push_node(value);
+                }
+                else{
+                    node *temp = new node;
+                    temp->data = value;
+                    node *prev_node = this->head;
+                    
+                    for(int i=0; i<pos-1; i++){
+                        prev_node = prev_node->next;
+                    }
+
+                    temp->next = prev_node->next;
+                    prev_node->next = temp;
+                }
+
+            }
+        }
+
+        void delete_node(int pos){
+            if(pos>this->get_length()-1){
+                cout << "Position Beyond LinkedList Length" << endl;
+                return;
+            }
+
+            if(pos == 0){
+                node *iter_node = this->head;
+                this->head = this->head->next;
+                delete iter_node;
+                return;
+            }
+
+            node *iter_node = this->head;
+            node *prev_node = this->head;
+            for(int i=0; i<pos; i++){
+                prev_node = iter_node;
+                iter_node = iter_node->next;
+            }
+            prev_node->next = iter_node->next;
+            delete iter_node;
+        }
 };
 
 int main(){
@@ -84,9 +140,23 @@ int main(){
     b.push_node(6);
     a.print_linkedlist(a.gethead());
     cout << a.get_length() << endl;
+    cout << " " << endl;
+
     a.concatenate(a.gethead(),b.gethead());
 
     a.print_linkedlist(a.gethead());
     cout << a.get_length() << endl;
+    cout << " " << endl;
+
+    a.insert_node(5,10);
+    a.print_linkedlist(a.gethead());
+    cout << a.get_length() << endl;
+    cout << " " << endl;
+
+    a.delete_node(6);
+    a.print_linkedlist(a.gethead());
+    cout << a.get_length() << endl;
+    cout << " " << endl;
+
     return 0; 
 }
