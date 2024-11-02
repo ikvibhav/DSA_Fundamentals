@@ -1,0 +1,7 @@
+# Python Related
+__pycache__/
+*.pyc
+venv/
+
+vscode/
+.vscode/
